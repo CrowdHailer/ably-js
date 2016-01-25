@@ -37,8 +37,13 @@ var Transport = (function() {
 	};
 
 	Transport.prototype.abort = function(error) {
+		/* An abort only implies a close if there is no transport we can fallback
+		 * to, which connectionManager can tell us. If there is such a transport,
+		 * don't need to do anything further -- it will be activated once this
+		 * transport finishes and so has no pending events */
 		if(this.isConnected) {
-			this.requestClose(true);
+			var closing = this.connectionManager.noTransportsScheduledForActivation();
+			this.requestClose(closing);
 		}
 		this.finish('failed', error);
 	};
