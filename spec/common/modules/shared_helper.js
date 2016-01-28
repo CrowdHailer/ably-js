@@ -23,7 +23,7 @@ define(['spec/common/modules/testapp_module', 'spec/common/modules/client_module
 		var monitorConnection = function(test, realtime) {
 			['failed', 'suspended'].forEach(function(state) {
 				realtime.connection.on(state, function () {
-					test.ok(false, 'connection to server ' + state);
+					test.ok(false, 'Connection monitoring: state changed to ' + state + ', aborting test');
 					test.done();
 					realtime.close();
 				});
