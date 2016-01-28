@@ -388,7 +388,7 @@ define(['ably', 'shared_helper', 'async'], function(Ably, helper, async) {
 		var clientRealtime,
 			rest = helper.AblyRest();
 
-		rest.auth.requestToken({ ttl: 5000 }, { queryTime: true }, function(err, tokenDetails) {
+		rest.auth.requestToken({ ttl: 5000 }, {}, function(err, tokenDetails) {
 			if(err) {
 				test.ok(false, displayError(err));
 				test.done();
@@ -476,7 +476,7 @@ define(['ably', 'shared_helper', 'async'], function(Ably, helper, async) {
 			});
 		};
 
-		realtime = helper.AblyRealtime({ authCallback: authCallback, clientId: clientId });
+		realtime = helper.AblyRealtime({ authCallback: authCallback, clientId: clientId, queryTime: true });
 		monitorConnection(test, realtime);
 		realtime.connection.once('connected', function(){
 			test.ok(true, 'Verify connection connected');
@@ -515,7 +515,7 @@ define(['ably', 'shared_helper', 'async'], function(Ably, helper, async) {
 			});
 		};
 
-		realtime = helper.AblyRealtime({ authCallback: authCallback, clientId: clientId });
+		realtime = helper.AblyRealtime({ authCallback: authCallback, clientId: clientId, queryTime: true });
 		monitorConnection(test, realtime);
 		realtime.connection.once('connected', function(){
 			test.ok(true, 'Verify connection connected');
@@ -547,7 +547,7 @@ define(['ably', 'shared_helper', 'async'], function(Ably, helper, async) {
 				closeAndFinish(test, realtime);
 				return;
 			}
-			realtime = helper.AblyRealtime({ token: tokenDetails.token, clientId: clientId });
+			realtime = helper.AblyRealtime({ token: tokenDetails.token, clientId: clientId, queryTime: true });
 			realtime.connection.once('connected', function(){
 				test.ok(true, 'Verify connection connected');
 				realtime.connection.once('disconnected', function(stateChange){
